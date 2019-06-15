@@ -1,34 +1,55 @@
 import React, { Component } from 'react';
 
+
 class SmurfForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      age: '',
-      height: ''
+      smurf: this.props.activeSmurf || {
+        name: '',
+        age: '',
+        height: ''
+      }
     };
   }
 
-  addSmurf = event => {
-    event.preventDefault();
-    // add code to create the smurf using the api
-
-    this.setState({
-      name: '',
-      age: '',
-      height: ''
-    });
+  componentDidUpdate(prevProps) {
+    if(this.props.activeSmurf && prevProps.activeSmurf !== this.props.activeSmurf) {
+      this.setState({
+        smurf: this.props.activeSmurf
+      });
+    }
   }
 
   handleInputChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    e.persist();
+    let value = e.target.value
+    this.setState(prevState => ({
+      smurf: {
+        ...prevState.smurf,
+      [e.target.name]: value 
+    }
+  }));
   };
+
+  handleSubmit = event => {
+    if(this.props.activeSmurf) {
+        this.props.updateSmurf(event, this.state.smurf);
+    } else {
+        this.props.addSmurf(event, this.state.smurf);
+    }
+    this.setState({
+        name: '',
+        age: '',
+        height: ''
+    });
+}
+
 
   render() {
     return (
       <div className="SmurfForm">
-        <form onSubmit={this.addSmurf}>
+        <form onSubmit={this.handleSubmit}>
           <input
             onChange={this.handleInputChange}
             placeholder="name"
