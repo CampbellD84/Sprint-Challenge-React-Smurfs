@@ -33,6 +33,7 @@ nav {
 
 .Smurf {
   border: 1px solid #000;
+  border-radius: 10px;
   height: 200px;
   width: 275px;
   margin: 20px 30px;
