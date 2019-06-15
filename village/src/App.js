@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
+import { Route, Link, NavLink } from 'react-router-dom';
 
 import './App.css';
 import SmurfForm from './components/SmurfForm';
@@ -30,9 +31,12 @@ class App extends Component {
     event.preventDefault();
     // add code to create the smurf using the api
     Axios.post('http://localhost:3333/smurfs', smurf)
-    .then(res => this.setState({
+    .then(res => {
+      this.setState({
       smurfs: res.data
-    }))
+    });
+    this.props.history.push("/");
+  })
     .catch(err => console.log(err));
   }
 
@@ -40,12 +44,27 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <SmurfForm 
-          smurfs={this.state.smurfs}
-          activeSmurf={this.state.activeSmurf}
-          addSmurf={this.addSmurf}
+        <nav>
+          <h1>Build a Smurf Village</h1>
+          <div className="links">
+            <NavLink to="/">Home</NavLink>
+            <NavLink to="/smurf-form">
+              {`${this.state.activeSmurf ? "Update" : "Add"} Smurf`}
+            </NavLink>
+          </div>
+        </nav>
+        <Route exact path="/" render={props => <Smurfs {...props} smurfs={this.state.smurfs} />} />
+        <Route 
+          path="/smurf-form" 
+          render={props => 
+          <SmurfForm 
+              {...props}
+              smurfs={this.state.smurfs}
+              activeSmurf={this.state.activeSmurf}
+              addSmurf={this.addSmurf}
+            />
+          } 
         />
-        <Smurfs smurfs={this.state.smurfs} />
       </div>
     );
   }
