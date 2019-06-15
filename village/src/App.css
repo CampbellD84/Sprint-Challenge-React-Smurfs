@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  margin: 0 auto;
+  max-width: 960px;
 }
 
 nav {
@@ -19,4 +21,21 @@ nav {
   color: #000;
   font-weight: bold;
   margin-right: 10px;
+}
+
+.Smurfs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: row wrap;
+  align-content: space-between;
+}
+
+.Smurf {
+  border: 1px solid #000;
+  height: 200px;
+  width: 275px;
+  margin: 20px 30px;
+  background-color: #88ccff;
+  color: #eaeaea;
 }
